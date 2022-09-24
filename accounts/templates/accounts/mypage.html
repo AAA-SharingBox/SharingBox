@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load django_bootstrap5 %}
+
+{% block main %}
+<h2>マイページ</h2>
+<p>ようこそ、{{ user.username }}さん</p>
+<p>投稿したリンク一覧</p>
+{% for post in posts reversed %}
+<div class="card my-2 shadow">
+    <div class="card-body">
+        <div class="h5 card-title">{{ post.url }}</div>
+        <div class="h6 card-subtitle">
+            投稿者：
+            {{ post.created_by }}
+            {% if post.created_by.is_superuser %}
+            <span style="color:red"><b>(管理人)</b></span>
+            {% endif %}
+        </div>
+        <div class="h6 card-subtitle">
+            投稿日：
+            {{ post.created_at }}
+        </div>
+        <p class="card-text">{{ post.description }}</p>
+        <p class="card-text">検索ワード：「{{ post.search_word }}」</p>
+        <a href="{{ post.url }}" class="btn btn-primary">このサイトを見る</a>
+    </div>
+</div>
+{% endfor %}
+{% endblock %}

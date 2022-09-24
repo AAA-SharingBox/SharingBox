@@ -1,0 +1,8 @@
+from django import forms
+
+from .models import Post
+
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ('url', 'search_word', 'description')
