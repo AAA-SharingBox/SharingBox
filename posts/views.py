@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
 from ipware import get_client_ip
+import re
 
 from .models import Post
 from .forms import PostForm
@@ -53,7 +54,8 @@ def post_new(request):
                 post.created_by = request.user
                 post.ip_address = client_ip
                 post.save()
-                tags = post.description.split('#')
+                description = post.description
+                tags = re.findall(r"#[^#\s]*", description)
                 for tag_str in tags:
                     tag = Tag(name=tag_str)
                     tag.save()
