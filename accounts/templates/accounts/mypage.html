@@ -20,7 +20,7 @@
             投稿日：
             {{ post.created_at }}
         </div>
-        <p class="card-text">{{ post.description }}</p>
+        <p class="card-text">{{ post.description | linebreaksbr  }}</p>
         <p class="card-text">検索ワード：「{{ post.search_word }}」</p>
         <a href="{{ post.url }}" class="btn btn-primary">このサイトを見る</a>
     </div>

@@ -31,7 +31,7 @@
                     投稿日：
                     {{ data.post.created_at }}
                 </div>
-                <p class="card-text">{{ data.post.description }}</p>
+                <p class="card-text">{{ data.post.description | linebreaksbr }}</p>
                 <p class="card-text">検索ワード：「{{ data.post.search_word }}」</p>
                 <a href="{{ data.post.url }}" target="_blank" class="btn btn-primary">このサイトを見る</a>
                 {% if request.user.is_authenticated %}
