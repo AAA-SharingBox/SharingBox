@@ -6,6 +6,7 @@ from ipware import get_client_ip
 from .models import Post
 from .forms import PostForm
 from good.models import Good
+from tags.models import Tag
 
 # Create your views here.
 
@@ -52,6 +53,11 @@ def post_new(request):
                 post.created_by = request.user
                 post.ip_address = client_ip
                 post.save()
+                tags = post.description.split('#')
+                for tag_str in tags:
+                    tag = Tag(name=tag_str)
+                    tag.save()
+                    post.tag.add(tag)
                 return redirect(top)
         else:
             form = PostForm()
