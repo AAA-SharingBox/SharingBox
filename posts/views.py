@@ -6,41 +6,21 @@ import re
 
 from .models import Post
 from .forms import PostForm
-from good.models import Good
+
 from tags.models import Tag
+from SharingBox.libraries import get_postcontext_list
 
 # Create your views here.
-
 def top(request):
-    context = []
     posts = Post.objects.all().order_by('created_at').reverse()
-    if request.user.is_authenticated:
-        for post in posts:
-            if Good.objects.filter(post=post, created_by=request.user).exists():
-                context.append({'post':post, 'good':True, 'good_count':post.good_count})
-            else:
-                context.append({'post':post, 'good':False, 'good_count':post.good_count})
-    else:
-        for post in posts:
-            context.append({'post':post, 'good':False, 'good_count':post.good_count})
-
-    context = {'context':context}
+    context_list = get_postcontext_list(request, posts)
+    context = {'context':context_list}
     return render(request, 'posts/top.html', context)
 
 def order_good(request):
-    context = []
     posts = Post.objects.all().order_by('good_count').reverse()
-    if request.user.is_authenticated:
-        for post in posts:
-            if Good.objects.filter(post=post, created_by=request.user).exists():
-                context.append({'post':post, 'good':True, 'good_count':post.good_count})
-            else:
-                context.append({'post':post, 'good':False, 'good_count':post.good_count})
-    else:
-        for post in posts:
-            context.append({'post':post, 'good':False, 'good_count':post.good_count})
-
-    context = {'context':context}
+    context_list = get_postcontext_list(request, posts)
+    context = {'context':context_list}
     return render(request, 'posts/order_good.html', context)
 
 
