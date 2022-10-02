@@ -1,19 +1,30 @@
-function good_change( url, btnId )
+function good_change( url, btnId, goodCountId )
 {
     btn = document.querySelector('#'+btnId);
+    goodCount = document.querySelector('#'+goodCountId);
     let option = {
         cache: 'no-cache',
        Credential: 'sameorigin'
     };
 
-    fetch(url, option).then( value => {
-        if( btn.className == "btn btn-danger")
+    fetch(url, option)
+    .then( response => response.json())
+    .then( data => {
+        if( data.status === "OK" )
         {
-            btn.className = "btn btn-outline-danger";
+            if( btn.className == "btn btn-danger")
+            {
+                btn.className = "btn btn-outline-danger";
+            }
+            else
+            {
+                btn.className = "btn btn-danger";
+            }
+            goodCount.textContent = String(data.good_count);
         }
         else
         {
-            btn.className = "btn btn-danger";
+            alert('いいねに失敗しました');
         }
     })
 }

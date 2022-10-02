@@ -20,7 +20,7 @@ class Post(models.Model):
     url = models.CharField('リンク', validators=[UrlValidator], max_length=500) 
     
     search_word = models.CharField('検索したワード', max_length=200)
-    description = models.TextField('コメント', blank=True)
+    description = models.TextField('コメント', max_length=300, blank=True)
     tag = models.ManyToManyField(Tag)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='投稿者', on_delete=models.CASCADE)
     created_at = models.DateTimeField('投稿日', auto_now_add=True)
