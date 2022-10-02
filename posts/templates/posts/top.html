@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 {% load django_bootstrap5 %}
 
 {% block extraheader %}
@@ -7,7 +8,6 @@
 
 {% block main %}
     {% include 'slogan.html' %}
-
     <ul class="nav nav-tabs">
         <li class="nav-item">
             <a href="#" class="nav-link active">投稿日順</a>
@@ -17,59 +17,8 @@
         </li>
     </ul>
     {% for data in context %}
-        <div class="card my-2 shadow">
-            <div class="card-body">
-                <div class="h5 card-title">{{ data.post.url }}</div>
-                <div class="h6 card-subtitle">
-                    投稿者：
-                    {{ data.post.created_by }}
-                    {% if data.post.created_by.is_superuser %}
-                        <span style="color:red"><b>(管理人)</b></span>
-                    {% endif %}
-                </div>
-                <div class="h6 card-subtitle">
-                    投稿日：
-                    {{ data.post.created_at }}
-                </div>
-                <p class="card-text">{{ data.post.description | linebreaksbr }}</p>
-                <p class="card-text">検索ワード：「{{ data.post.search_word }}」</p>
-                <a href="{{ data.post.url }}" target="_blank" class="btn btn-primary">このサイトを見る</a>
-                {% if request.user.is_authenticated %}
-                    {% if data.good %}
-                        <a class="btn btn-danger" id="goodBtn-{{ data.post.id }}" onClick="good_change('{% url "good:good_change" data.post.id %}' , 'goodBtn-{{data.post.id}}' )">
-                            <span class="material-symbols-outlined">favorite</span>
-                        </a>
-                    {% else %}
-                        <a class="btn btn-outline-danger" id="goodBtn-{{ data.post.id }}" onClick="good_change('{% url "good:good_change"  data.post.id %}' , 'goodBtn-{{data.post.id}}' )">
-                            <span class="material-symbols-outlined">favorite</span>
-                        </a>
-                    {% endif %}
-                    <span>{{ data.good_count }}</span>
-                {% endif %}
-            </div>
-        </div>
+        {% include 'post.html' with data=data %}
     {% endfor %}
-    
 
-    <script>
-        function good_change( url, btnId )
-        {
-            btn = document.querySelector('#'+btnId);
-            let option = {
-                cache: 'no-cache',
-                Credential: 'sameorigin'
-            };
-
-            fetch(url, option).then( value => {
-                if( btn.className == "btn btn-danger")
-                {
-                    btn.className = "btn btn-outline-danger";
-                }
-                else
-                {
-                    btn.className = "btn btn-danger";
-                }
-            })
-        }
-    </script>
+    <script type="text/javascript" src="{% static 'js/good_change.js' %}"></script>
 {% endblock %}
