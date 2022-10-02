@@ -32,6 +32,7 @@ def good_change(request, post_id):
 
         data = {
             "status":"OK",
+            "good_count":post.good_count,
         }
         return JsonResponse(data)
     else:
