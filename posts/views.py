@@ -18,7 +18,7 @@ def top(request):
     return render(request, 'posts/top.html', context)
 
 def order_good(request):
-    posts = Post.objects.all().order_by('good_count').reverse()
+    posts = Post.objects.all().order_by('good_count', 'created_at').reverse()
     context_list = get_postcontext_list(request, posts)
     context = {'context':context_list}
     return render(request, 'posts/order_good.html', context)
