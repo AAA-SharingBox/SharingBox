@@ -25,7 +25,11 @@
                     <span class="material-symbols-outlined">favorite</span>
                 </a>
             {% endif %}
-            <span id="goodCount-{{data.post.id}}">{{ data.good_count }}</span>
+        {% else %}
+            <a class="btn btn-outline-danger" id="goodBtn-{{ data.post.id }}" href="{% url 'login' %}">
+                <span class="material-symbols-outlined">favorite</span>
+            </a>
         {% endif %}
+        <span id="goodCount-{{data.post.id}}">{{ data.good_count }}</span>
     </div>
 </div>
